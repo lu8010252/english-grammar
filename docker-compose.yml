@@ -4,7 +4,7 @@ services:
     container_name: english-grammar
     restart: unless-stopped
     ports:
-      - "8092:3000"          # 左边是对外端口，按需修改
+      - "8092:8092"          # 左边是对外端口，按需修改
     environment:
       - TZ=Asia/Shanghai
       - ADMIN_PIN=           # 家长密码：留空=不设；设置后「清除数据/删除学习者/导入备份」需要输入
