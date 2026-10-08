@@ -6,12 +6,25 @@
 
 ## 部署
 
-```bash
-cd /opt/1panel/apps/english-grammar      # 解压后的目录
-docker compose up -d --build
+不用下载源码，新建一个目录，放入下面的 `docker-compose.yml`（或直接贴到 1Panel 的编排里）：
+
+```yaml
+services:
+  english-grammar:
+    image: ghcr.io/lu8010252/english-grammar:latest
+    container_name: english-grammar
+    restart: unless-stopped
+    ports:
+      - "8092:3000"
+    environment:
+      - TZ=Asia/Shanghai
+      - ADMIN_PIN=
+    volumes:
+      - ./data:/data
 ```
-访问 `http://服务器IP:8092`（端口在 docker-compose.yml 里改）。1Panel：容器 → 编排 → 新建，路径选这个目录。
-构建时拉不动 node 镜像，可先配置 docker 镜像加速，或把 Dockerfile 第一行换成能拉到的镜像地址。
+然后 `docker compose up -d`，访问 `http://服务器IP:8092`。更新：`docker compose pull && docker compose up -d`。
+
+镜像由 GitHub Actions 在每次推送 main 后自动构建（amd64 / arm64）。想自己构建，把 `image:` 换成 `build: .` 即可。
 
 ## 目录结构
 
@@ -43,8 +56,8 @@ data/                  学习数据（运行后自动生成）
 
 ## 怎么加内容
 
-docker-compose.yml 已经把 `./public` 挂进了容器，**改完 public 里的文件，刷新页面就生效，不用重新构建**。
-（只有改了 server.js 或 Dockerfile 才需要 `docker compose up -d --build`。）
+内容文件都在镜像里的 `public/`，改完推送仓库、等 Actions 构建完，再 `docker compose pull && docker compose up -d` 即可。
+（本地调试可在 compose 里加一行 `- ./public:/app/public:ro`，改文件刷新就生效。）
 
 - **给已有单元加题**：在 content/ 里新建一个文件，文件名数字比现有的大，例如 `61-more-3.js`：
   ```js
