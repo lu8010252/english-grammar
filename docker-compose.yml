@@ -1,0 +1,13 @@
+services:
+  english-grammar:
+    build: .
+    container_name: english-grammar
+    restart: unless-stopped
+    ports:
+      - "8092:3000"          # 左边是对外端口，按需修改
+    environment:
+      - TZ=Asia/Shanghai
+      - ADMIN_PIN=           # 家长密码：留空=不设；设置后「清除数据/删除学习者/导入备份」需要输入
+    volumes:
+      - ./data:/data         # 学习数据（data.json），备份只需复制这个目录
+      - ./public:/app/public:ro   # 页面和题目内容：直接改 ./public 里的文件，刷新页面就生效，不用重新构建
