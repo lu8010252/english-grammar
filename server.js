@@ -8,7 +8,7 @@ const path = require('path');
 const crypto = require('crypto');
 const zlib = require('zlib');
 
-const PORT = parseInt(process.env.PORT || '3000', 10);
+const PORT = parseInt(process.env.PORT || '8092', 10);
 const DATA_DIR = process.env.DATA_DIR || '/data';
 const ADMIN_PIN = process.env.ADMIN_PIN || '';
 const FILE = path.join(DATA_DIR, 'data.json');

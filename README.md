@@ -15,7 +15,7 @@ services:
     container_name: english-grammar
     restart: unless-stopped
     ports:
-      - "8092:3000"
+      - "8092:8092"
     environment:
       - TZ=Asia/Shanghai
       - ADMIN_PIN=
